@@ -8,11 +8,11 @@ function App() {
     
     async function lightSwitchOn() {
    
-        fetch('http://192.168.1.109/apps/api/36/devices/7/on?access_token=2f7e7f53-929a-450d-a283-bf3e05bf2685')
+        fetch('https://cloud.hubitat.com/api/43805768-6bc2-477b-b5e2-b80c642fafdd/apps/36/devices/7/on?access_token=2f7e7f53-929a-450d-a283-bf3e05bf2685')
     }  
     
     async function lightSwitchOff() {
-        fetch('http://192.168.1.109/apps/api/36/devices/7/off?access_token=2f7e7f53-929a-450d-a283-bf3e05bf2685')
+        fetch('https://cloud.hubitat.com/api/43805768-6bc2-477b-b5e2-b80c642fafdd/apps/36/devices/7/off?access_token=2f7e7f53-929a-450d-a283-bf3e05bf2685')
 
     }
   return (
