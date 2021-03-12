@@ -10,56 +10,49 @@ const initialFormState = { name: '', description: '' }
 
 
 function App() {
-    const[ dataCards, setDataCards] = useState([]);
+    const[ blogs, setBlogs] = useState([]);
     const[formData,setFormData] = useState(initialFormState);
     
     useEffect(() => {
-        fetchDataCard();
+        fetchBlogs();
     }, []);
     
-    async function fetchDataCard() {
-        const apiData = await API.graphql({query:listBlogs });
-        setDataCards(apiData.data.listBlogs.items);
+    async function fetchBlogs() {
+        const apiBlog = await API.graphql({query:listBlogs });
+        setBlogs(apiBlog.data.listBlogs.items);
     }
     
      async function createBlog() {
     if (!formData.name || !formData.description) return;
     await API.graphql({ query: createBlogMutation, variables: { input: formData } });
-    setDataCards([ ...dataCards, formData ]);
+    setBlogs([ ...blogs, formData ]);
     setFormData(initialFormState);
   }
 
   async function deleteBlog({ id }) {
-    const newDataCardArray = dataCards.filter(dataCards => dataCards.id !== id);
-    setDataCards(newDataCardArray);
+    const newBlogArray = blogs.filter(blogs => blogs.id !== id);
+    setBlogs(newBlogArray);
     await API.graphql({ query: deleteBlogMutation, variables: { input: { id } }});
   }
     
+
+    async function lightSwitchOn() {
+   
+        fetch('http://192.168.1.109/apps/api/36/devices/7/on?access_token=2f7e7f53-929a-450d-a283-bf3e05bf2685')
+    }  
     
+    async function lightSwitchOff() {
+        fetch('http://192.168.1.109/apps/api/36/devices/7/off?access_token=2f7e7f53-929a-450d-a283-bf3e05bf2685')
+
+    }
   return (
     <div className="App">
-     <h1>My Data Card App</h1>
-      <input
-        onChange={e => setFormData({ ...formData, 'name': e.target.value})}
-        placeholder="Card name"
-        value={formData.name}
-      />
-      <input
-        onChange={e => setFormData({ ...formData, 'description': e.target.value})}
-        placeholder="Card description"
-        value={formData.description}
-      />
-      <button onClick={createBlog}>Create Card</button>
+     <h1>My Light App</h1>
+      
       <div style={{marginBottom: 30}}>
-        {
-          dataCards.map(dataCards => (
-            <div key={dataCards.id || dataCards.name}>
-              <h2>{dataCards.name}</h2>
-              <p>{dataCards.description}</p>
-              <button onClick={() => deleteBlog(dataCards)}>Delete Card</button>
-            </div>
-          ))
-        }
+        
+        <button onClick= {lightSwitchOn} >Light On</button>
+        <button onClick= {lightSwitchOff} >Switch Light Off</button>
       </div>
       <AmplifySignOut/>
     </div>
